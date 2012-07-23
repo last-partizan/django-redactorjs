@@ -23,6 +23,5 @@ def redactor_upload(request, upload_to=None, form_class=ImageForm, response=lamb
         path = os.path.join(upload_to or UPLOAD_PATH, file_.name)
         real_path = default_storage.save(path, file_)
         return HttpResponse(
-            response(file_.name, os.path.join(settings.MEDIA_URL, real_path))
-        )
+            response(file_.name, default_storage.url(real_path)))
     return HttpResponse(status=403)
