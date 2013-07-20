@@ -15,7 +15,7 @@ var RTOOLBAR = {};
 (function($){
 	
 	// Plugin
-	jQuery.fn.redactor = function(option)
+	(jQuery || django.jQuery).fn.redactor = function(option)
 	{
 		return this.each(function() 
 		{
@@ -2072,7 +2072,7 @@ var RTOOLBAR = {};
 		this.data('redactor').execCommand(cmd, param);
 	}
 
-})(jQuery);
+})(jQuery || django.jQuery);
 
 /*
 	Plugin Drag and drop Upload v1.0.1
@@ -2174,7 +2174,7 @@ var RTOOLBAR = {};
 	};
 
 	
-})(jQuery);
+})(jQuery || django.jQuery);
 
 
 
@@ -2217,4 +2217,4 @@ var RTOOLBAR = {};
 		this.each(linkifyThis);
 	};
 
-})(jQuery);
+})(jQuery || django.jQuery);
