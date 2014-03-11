@@ -10,10 +10,10 @@ REDACTOR_EXTERNAL_JQUERY = getattr(settings, 'REDACTOR_EXTERNAL_JQUERY', False)
 
 INIT_JS = """<script type="text/javascript">
     if (!jQuery) {
-        if (!window._redactor_options) window._redactor_options = {{}};
-        window._redactor_options["#{0}"] = {1}; }
+        if (!window._redactor_options) window._redactor_options = {};
+        window._redactor_options["#%(id)s"] = %(opts)s; }
     else {
-        jQuery("#%s").redactor({1});
+        jQuery("#%(id)s").redactor(%(opts)s);
     }
 
 </script>
@@ -63,7 +63,7 @@ class RedactorEditor(widgets.Textarea):
         html = super(RedactorEditor, self).render(name, value, attrs)
         final_attrs = self.build_attrs(attrs)
         id_ = final_attrs.get('id')
-        html += INIT_JS.format(id_, self.get_options())
+        html += INIT_JS % {'id': id_, 'opts': self.get_options()}
         return mark_safe(html)
 
 # For backward compatibility
