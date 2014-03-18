@@ -9,14 +9,18 @@ GLOBAL_OPTIONS = getattr(settings, 'REDACTOR_OPTIONS', {})
 JQUERY_URL = getattr(settings, 'JQUERY_URL', None)
 
 INIT_JS = """<script type="text/javascript">
-    (function($){
-        $("#%s").redactor(%s);
-    })(jQuery || django.jQuery);
+    var $ = window.jQuery || (window.django || {}).jQuery;
+    if ($) { (function($){ $("#%(id)s").redactor(%(opts)s); })($); }
+    else {
+        if (!window._redactor_options) window._redactor_options = {};
+        window._redactor_options["#%(id)s"] = %(opts)s;
+    }
     </script>
     """
 
 redactor_js = [
-    'redactor/redactor.min.js',
+    'redactor/redactor%s.js' % "" if settings.DEBUG else ".min",
+    'redactor/init.js',
 ]
 
 if JQUERY_URL:
@@ -60,7 +64,7 @@ class RedactorEditor(widgets.Textarea):
         html = super(RedactorEditor, self).render(name, value, attrs)
         final_attrs = self.build_attrs(attrs)
         id_ = final_attrs.get('id')
-        html += INIT_JS % (id_, self.get_options())
+        html += INIT_JS % {'id': id_, 'opts': self.get_options()}
         return mark_safe(html)
 
 
