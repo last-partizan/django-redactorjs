@@ -3,4 +3,4 @@
     $.each(window._redactor_options, function(id, opts) {
         $(id).redactor(opts);
     });
-})(jQuery);
+})(window.jQuery || django.jQuery);
