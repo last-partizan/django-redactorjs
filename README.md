@@ -27,9 +27,10 @@ Getting started
 
 * Add `url(r'^redactor/', include('redactor.urls'))`, to urls.py
 
-* Add default config in settings.py (more settings see: <http://redactorjs.com/docs/settings/>):
+* Add default config in settings.py (more settings see: <http://imperavi.com/redactor/docs/settings/>):
 
 ```
+JQUERY_URL = STATIC_URL + 'js/jquery.js'
 REDACTOR_OPTIONS = {'lang': 'ru'}
 REDACTOR_UPLOAD = 'uploads/'
 ```

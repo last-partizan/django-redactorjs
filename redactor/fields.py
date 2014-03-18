@@ -17,3 +17,9 @@ class RedactorField(Field):
         defaults = {'widget': self.widget}
         defaults.update(kwargs)
         return super(RedactorField, self).formfield(**defaults)
+      
+try:
+    from south.modelsinspector import add_introspection_rules
+    add_introspection_rules([], ['^redactor\.fields\.RedactorField'])
+except ImportError:
+    pass

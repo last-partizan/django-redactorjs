@@ -6,31 +6,28 @@ from django.conf import settings
 
 
 GLOBAL_OPTIONS = getattr(settings, 'REDACTOR_OPTIONS', {})
-REDACTOR_EXTERNAL_JQUERY = getattr(settings, 'REDACTOR_EXTERNAL_JQUERY', False)
+JQUERY_URL = getattr(settings, 'JQUERY_URL', None)
 
 INIT_JS = """<script type="text/javascript">
-    if (!window.jQuery) {
-        if (!window._redactor_options) window._redactor_options = {};
-        window._redactor_options["#%(id)s"] = %(opts)s; }
-    else {
-        window.jQuery("#%(id)s").redactor(%(opts)s);
-    }
-
-</script>
-"""
+    (function($){
+        $("#%s").redactor(%s);
+    })(jQuery || django.jQuery);
+    </script>
+    """
 
 redactor_js = [
     'redactor/redactor.min.js',
-    'redactor/init.js',
 ]
 
-if not REDACTOR_EXTERNAL_JQUERY:
-    redactor_js.insert(0, 'redactor/jquery-1.7.min.js')
+if JQUERY_URL:
+    redactor_js.insert(0, JQUERY_URL)
+
 
 class RedactorEditor(widgets.Textarea):
 
     class Media:
         js = redactor_js
+
         css = {
             'all': (
                 'redactor/css/redactor.css',
@@ -63,8 +60,9 @@ class RedactorEditor(widgets.Textarea):
         html = super(RedactorEditor, self).render(name, value, attrs)
         final_attrs = self.build_attrs(attrs)
         id_ = final_attrs.get('id')
-        html += INIT_JS % {'id': id_, 'opts': self.get_options()}
+        html += INIT_JS % (id_, self.get_options())
         return mark_safe(html)
+
 
 # For backward compatibility
 JQueryEditor = RedactorEditor
