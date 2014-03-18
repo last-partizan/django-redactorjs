@@ -1,4 +1,7 @@
-from django.conf.urls import url, patterns
+try:
+    from django.conf.urls import url, patterns
+except:
+    from django.conf.urls.defaults import url, patterns
 
 from redactor.views import redactor_upload
 from redactor.forms import FileForm, ImageForm
