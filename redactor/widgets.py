@@ -1,7 +1,8 @@
+import json
+
 from django.forms import widgets
 from django.utils.safestring import mark_safe
 from django.core.urlresolvers import reverse
-from django.utils import simplejson as json
 from django.conf import settings
 
 
