@@ -20,7 +20,7 @@ INIT_JS = """<script type="text/javascript">
     """
 
 redactor_js = [
-    'redactor/redactor%s.js' % "" if settings.DEBUG else ".min",
+    'redactor/redactor%s.js' % ("" if settings.DEBUG else ".min"),
     'redactor/init.js',
 ]
 
